@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <form method="post" onsubmit="javascript:getObject(); return false;">
+    <input type="number" value="1" id="OrderNumber" name="OrderNumber" hidden> First Name:
+    <input type="text" id="FirstName" name="FirstName" required>
+    <br> Last name:
+    <input type="text" id="LastName" name="LastName" required>
+    <br> City:
+    <input type="text" id="City" name="City" required>
+    <br> State:
+    <input type="text" id="State" name="State" required>
+    <br> ZipCode:
+    <input type="text" id="ZipCode" name="ZipCode" required>
+    <br> PhoneNumber:
+    <input type="text" id="PhoneNumber" name="PhoneNumber" required>
+    <br> ShippingSpeed:
+    <input type="text" id="ShippingSpeed" name="ShippingSpeed" required>
+    <br> ShippingProvider:
+    <input type="text" id="Name" name="Name" required>
+    <br> ShipMethod:
+    <input type="number" id="ShipMethod" name="ShipMethod" required>
+    <br> Status:
+    <input type="text" id="Status" name="Status" value="ReadyToShip" disabled>
+    <br>
+    <input type="submit" value="Submit">
+  </form>
+  <p id="response"></p>
+</body>
+<script>
+  function getObject() {
+    var url = '/ship';
+    var data = {
+      "OrderNumber": document.getElementById("OrderNumber").value,
+      "Address": {
+        "FirstName": document.getElementById("FirstName").value,
+        "LastName": document.getElementById("LastName").value,
+        "AddressLine": {
+          "City": document.getElementById("City").value,
+          "State": document.getElementById("State").value,
+          "ZipCode": document.getElementById("ZipCode").value,
+          "PhoneNumber": document.getElementById("PhoneNumber").value
+        }
+      },
+      "ShippingSpeed": document.getElementById("ShippingSpeed").value,
+      "ShippingProvider": {
+        "Name": document.getElementById("Name").value
+      },
+      "ShipMethod": document.getElementById("ShipMethod").value,
+      "Status": document.getElementById("Status").value
+    }
+
+    var parsed = JSON.stringify(data);
+    console.log(parsed);
+
+    jQuery.ajax({
+      url: url,
+      method: "POST",
+      data: parsed,
+      dataType: "json",
+      contentType: "application/json; charset=utf-8",
+      success: function (response) {
+        document.getElementById('response').innerHTML = response.Shipping.Status;
+      }
+    });
+
+    return false;
+  }
+</script>
+</html>
