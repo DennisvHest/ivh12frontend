@@ -3,34 +3,95 @@
 
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <style>
+    body {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+    }
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    form span {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    .container {
+      width: 50%;
+      max-width: 300px;
+    }
+    #response table tr{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    #response table tr td:first-child{
+      font-weight: bold;
+    }
+    #response table tr:last-child td:last-child{
+      font-style: italic;
+    }
+  </style>
 </head>
 
 <body>
-  <form method="post" onsubmit="javascript:getObject(); return false;">
-    <input type="number" value="1" id="OrderNumber" name="OrderNumber" hidden> First Name:
-    <input type="text" id="FirstName" name="FirstName" required>
-    <br> Last name:
-    <input type="text" id="LastName" name="LastName" required>
-    <br> City:
-    <input type="text" id="City" name="City" required>
-    <br> State:
-    <input type="text" id="State" name="State" required>
-    <br> ZipCode:
-    <input type="text" id="ZipCode" name="ZipCode" required>
-    <br> PhoneNumber:
-    <input type="text" id="PhoneNumber" name="PhoneNumber" required>
-    <br> ShippingSpeed:
-    <input type="text" id="ShippingSpeed" name="ShippingSpeed" required>
-    <br> ShippingProvider:
-    <input type="text" id="Name" name="Name" required>
-    <br> ShipMethod:
-    <input type="number" id="ShipMethod" name="ShipMethod" required>
-    <br> Status:
-    <input type="text" id="Status" name="Status" value="ReadyToShip" disabled>
-    <br>
-    <input type="submit" value="Submit">
-  </form>
-  <p id="response"></p>
+  <!-- Request -->
+  <div class="container">
+    <h2>Request</h2>
+    <form method="post" onsubmit="javascript:getObject(); return false;">
+      <input type="number" value="1" id="OrderNumber" name="OrderNumber" hidden>
+      <span>
+          <label>First Name:</label>
+          <input type="text" id="FirstName" name="FirstName" required>
+      </span>
+      <span>
+          <label>Last Name:</label>
+          <input type="text" id="LastName" name="LastName" required>
+      </span>
+      <span>
+          <label>City:</label>
+          <input type="text" id="City" name="City" required>
+      </span>
+      <span>
+          <label>State:</label>
+          <input type="text" id="State" name="State" required>
+      </span>
+      <span>
+          <label>ZipCode:</label>
+          <input type="text" id="ZipCode" name="ZipCode" required>
+      </span>
+      <span>
+          <label>PhoneNumber:</label>
+          <input type="text" id="PhoneNumber" name="PhoneNumber" required>
+      </span>
+      <span>
+          <label>ShippingSpeed:</label>
+          <input type="text" id="ShippingSpeed" name="ShippingSpeed" required>
+      </span>
+      <span>
+          <label>ShippingProvider:</label>
+          <input type="text" id="Name" name="Name" required>
+      </span>
+      <span>
+          <label>Status:</label>
+          <input type="text" id="Status" name="Status" value="ReadyToShip" disabled>
+      </span>
+      
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+  <!-- Response -->
+  <div class="container">
+    <h2>Response</h2>
+    <p id="response">Please send a request.</p>
+  </div>
 </body>
 <script>
   function getObject() {
@@ -51,13 +112,11 @@
       "ShippingProvider": {
         "Name": document.getElementById("Name").value
       },
-      "ShipMethod": document.getElementById("ShipMethod").value,
+      "ShipMethod": 4,
       "Status": document.getElementById("Status").value
     }
-
     var parsed = JSON.stringify(data);
-    console.log(parsed);
-
+    document.getElementById("response").innerHTML = "Waiting for response...";
     jQuery.ajax({
       url: url,
       method: "POST",
@@ -65,11 +124,22 @@
       dataType: "json",
       contentType: "application/json; charset=utf-8",
       success: function (response) {
-        document.getElementById('response').innerHTML = response.Shipping.Status;
+        var table = "<table style='width:100%'>";
+        table += "<tr><td>First Name:</td><td>" + response.Address.FirstName + "</td></tr>";
+        table += "<tr><td>Last Name:</td><td>" + response.Address.LastName + "</td></tr>";
+        table += "<tr><td>City:</td><td>" + response.Address.AddressLine.City + "</td></tr>";
+        table += "<tr><td>State:</td><td>" + response.Address.AddressLine.State + "</td></tr>";
+        table += "<tr><td>ZipCode:</td><td>" + response.Address.AddressLine.ZipCode + "</td></tr>";
+        table += "<tr><td>PhoneNumber:</td><td>" + response.Address.AddressLine.PhoneNumber + "</td></tr>";
+        table += "<tr><td>ShippingSpeed:</td><td>" + response.ShippingSpeed + "</td></tr>";
+        table += "<tr><td>ShippingProvider:</td><td>" + response.ShippingProvider.Name + "</td></tr>";
+        table += "<tr><td>Status:</td><td>" + response.Status + "</td></tr>";
+        table += "</table>";
+        document.getElementById('response').innerHTML = table;
       }
     });
-
     return false;
   }
 </script>
+
 </html>
