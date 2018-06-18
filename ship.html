@@ -4,12 +4,25 @@
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <style>
+    html, body{
+      width: 100%;
+      height: 100%;
+    }
     body {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      margin: 0;      
+      background-color: #1466B2;
+    }
+    .flexbox {
       width: 100%;
       height: 100%;
       display: flex;
       flex-direction: row;
       justify-content: space-evenly;
+      align-items: center;
     }
     form {
       width: 100%;
@@ -22,75 +35,112 @@
       justify-content: space-between;
       margin-bottom: 5px;
     }
-    .container {
-      width: 50%;
-      max-width: 300px;
+    .heading {
+      border-bottom: 1px solid black;
     }
-    #response table tr{
+    .container {
+      width: 350px;
+      height: 350px;
+      padding: 0 25px 0 25px;
+      background-color: #FFFFFF;
+      border: 1px solid lightgray;
+      border-radius: 10px;
+      box-shadow: 3px 3px 2px 2px black;
+    }
+    #response table tr {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       margin-bottom: 5px;
     }
-    #response table tr td:first-child{
+    #response table tr td:first-child {
       font-weight: bold;
     }
-    #response table tr:last-child td:last-child{
+    #response table tr:last-child td:last-child {
       font-style: italic;
+    }
+    .header {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      background-color: black;
+      padding-top: 5px;
+    }
+    #title {
+      color: #f80000;
+      margin: 0;
+    }
+    #subtitle {
+      color: #FFFFFF;
+      margin: 0;
+    }
+    #subsubtitle {
+      color: #FFFFFF;
+      margin: 0;
+      font-size: 12px;
     }
   </style>
 </head>
 
 <body>
-  <!-- Request -->
-  <div class="container">
-    <h2>Request</h2>
-    <form method="post" onsubmit="javascript:getObject(); return false;">
-      <input type="number" value="1" id="OrderNumber" name="OrderNumber" hidden>
-      <span>
-          <label>First Name:</label>
-          <input type="text" id="FirstName" name="FirstName" required>
-      </span>
-      <span>
-          <label>Last Name:</label>
-          <input type="text" id="LastName" name="LastName" required>
-      </span>
-      <span>
-          <label>City:</label>
-          <input type="text" id="City" name="City" required>
-      </span>
-      <span>
-          <label>State:</label>
-          <input type="text" id="State" name="State" required>
-      </span>
-      <span>
-          <label>ZipCode:</label>
-          <input type="text" id="ZipCode" name="ZipCode" required>
-      </span>
-      <span>
-          <label>PhoneNumber:</label>
-          <input type="text" id="PhoneNumber" name="PhoneNumber" required>
-      </span>
-      <span>
-          <label>ShippingSpeed:</label>
-          <input type="text" id="ShippingSpeed" name="ShippingSpeed" required>
-      </span>
-      <span>
-          <label>ShippingProvider:</label>
-          <input type="text" id="Name" name="Name" required>
-      </span>
-      <span>
-          <label>Status:</label>
-          <input type="text" id="Status" name="Status" value="ReadyToShip" disabled>
-      </span>
-      
-      <input type="submit" value="Submit">
-    </form>
+  <!-- Header -->
+  <div class="header">
+    <h2 id="title">Oracle SOAP</h2>
+    <h3 id="subtitle">PackAndShipService Frontend</h3>
+    <p id="subsubtitle">IVH12B3</p>
   </div>
-  <!-- Response -->
-  <div class="container">
-    <h2>Response</h2>
-    <p id="response">Please send a request.</p>
+  <div class="flexbox">
+    <!-- Request -->
+    <div class="container">
+      <h2 class="heading">Request</h2>
+      <form method="post" onsubmit="javascript:getObject(); return false;">
+        <input type="number" value="1" id="OrderNumber" name="OrderNumber" hidden>
+        <span>
+            <label>First Name:</label>
+            <input type="text" id="FirstName" name="FirstName" required>
+        </span>
+        <span>
+            <label>Last Name:</label>
+            <input type="text" id="LastName" name="LastName" required>
+        </span>
+        <span>
+            <label>City:</label>
+            <input type="text" id="City" name="City" required>
+        </span>
+        <span>
+            <label>State:</label>
+            <input type="text" id="State" name="State" required>
+        </span>
+        <span>
+            <label>ZipCode:</label>
+            <input type="text" id="ZipCode" name="ZipCode" required>
+        </span>
+        <span>
+            <label>PhoneNumber:</label>
+            <input type="text" id="PhoneNumber" name="PhoneNumber" required>
+        </span>
+        <span>
+            <label>ShippingSpeed:</label>
+            <input type="text" id="ShippingSpeed" name="ShippingSpeed" required>
+        </span>
+        <span>
+            <label>ShippingProvider:</label>
+            <input type="text" id="Name" name="Name" required>
+        </span>
+        <span>
+            <label>Status:</label>
+            <input type="text" id="Status" name="Status" value="ReadyToShip" disabled>
+        </span>
+        
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+    <!-- Response -->
+    <div class="container">
+      <h2 class="heading">Response</h2>
+      <p id="response">Please send a request.</p>
+    </div>
   </div>
 </body>
 <script>
