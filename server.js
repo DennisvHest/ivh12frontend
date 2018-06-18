@@ -18,7 +18,7 @@ const apiUrl = "http://localhost:7101/soa-infra/resources/default/PackAndShipSer
 app.post('/ship', (req, res) => {
     let args = {
         data: req.body,
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json", "Accept": "application/json" }
     };
 
     restClient.post(apiUrl, args, (data, response) => {
