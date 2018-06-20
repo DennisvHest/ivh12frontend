@@ -21,9 +21,8 @@ app.post('/ship', (req, res) => {
         headers: { "Content-Type": "application/json", "Accept": "application/json" }
     };
 
-    restClient.post(apiUrl, args, (data, response) => {
+    restClient.post(apiUrl, args, (data) => {
         console.log(data);
-        console.log(response);
 
         res.send(data);
     });

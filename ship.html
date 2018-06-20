@@ -4,19 +4,22 @@
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <style>
-    html, body{
+    html,
+    body {
       width: 100%;
       height: 100%;
       font-family: Arial, Helvetica, sans-serif;
     }
+
     body {
       width: 100%;
       height: 100%;
       display: flex;
       flex-direction: column;
-      margin: 0;      
+      margin: 0;
       background-color: #1466B2;
     }
+
     .flexbox {
       width: 100%;
       height: 100%;
@@ -25,20 +28,24 @@
       justify-content: space-evenly;
       align-items: center;
     }
+
     form {
       width: 100%;
       display: flex;
       flex-direction: column;
     }
+
     form span {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       margin-bottom: 5px;
     }
+
     .heading {
       border-bottom: 1px solid black;
     }
+
     .container {
       width: 380px;
       height: 380px;
@@ -48,18 +55,22 @@
       border-radius: 10px;
       box-shadow: 3px 3px 2px 2px black;
     }
+
     #response table tr {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       margin-bottom: 5px;
     }
+
     #response table tr td:first-child {
       font-weight: bold;
     }
+
     #response table tr:last-child td:last-child {
       font-style: italic;
     }
+
     .header {
       width: 100%;
       display: flex;
@@ -68,14 +79,17 @@
       background-color: black;
       padding-top: 5px;
     }
+
     #title {
       color: #f80000;
       margin: 0;
     }
+
     #subtitle {
       color: #FFFFFF;
       margin: 0;
     }
+
     #subsubtitle {
       color: #FFFFFF;
       margin: 0;
@@ -101,42 +115,42 @@
           <input type="number" id="OrderNumber" name="OrderNumber">
         </span>
         <span>
-            <label>First Name:</label>
-            <input type="text" id="FirstName" name="FirstName" required>
+          <label>First Name:</label>
+          <input type="text" id="FirstName" name="FirstName" required>
         </span>
         <span>
-            <label>Last Name:</label>
-            <input type="text" id="LastName" name="LastName" required>
+          <label>Last Name:</label>
+          <input type="text" id="LastName" name="LastName" required>
         </span>
         <span>
-            <label>City:</label>
-            <input type="text" id="City" name="City" required>
+          <label>City:</label>
+          <input type="text" id="City" name="City" required>
         </span>
         <span>
-            <label>State:</label>
-            <input type="text" id="State" name="State" required>
+          <label>State:</label>
+          <input type="text" id="State" name="State" required>
         </span>
         <span>
-            <label>ZipCode:</label>
-            <input type="text" id="ZipCode" name="ZipCode" required>
+          <label>ZipCode:</label>
+          <input type="text" id="ZipCode" name="ZipCode" required>
         </span>
         <span>
-            <label>PhoneNumber:</label>
-            <input type="text" id="PhoneNumber" name="PhoneNumber" required>
+          <label>PhoneNumber:</label>
+          <input type="text" id="PhoneNumber" name="PhoneNumber" required>
         </span>
         <span>
-            <label>ShippingSpeed:</label>
-            <input type="text" id="ShippingSpeed" name="ShippingSpeed" required>
+          <label>ShippingSpeed:</label>
+          <input type="text" id="ShippingSpeed" name="ShippingSpeed" required>
         </span>
         <span>
-            <label>ShippingProvider:</label>
-            <input type="text" id="Name" name="Name" required>
+          <label>ShippingProvider:</label>
+          <input type="text" id="Name" name="Name" required>
         </span>
         <span>
-            <label>Status:</label>
-            <input type="text" id="Status" name="Status" value="ReadyToShip" disabled>
+          <label>Status:</label>
+          <input type="text" id="Status" name="Status" value="ReadyToShip" disabled>
         </span>
-        
+
         <input type="submit" value="Submit">
       </form>
     </div>
@@ -148,6 +162,23 @@
   </div>
 </body>
 <script>
+  var htmlEscapes = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    '/': '&#x2F;'
+  };
+
+  var htmlEscaper = /[&<>"'\/]/g;
+
+  function escapeHtml(string) {
+    return ('' + string).replace(htmlEscaper, function (match) {
+      return htmlEscapes[match];
+    });
+  };
+
   function getObject() {
     var url = '/ship';
     var data = {
@@ -179,15 +210,15 @@
       contentType: "application/json; charset=utf-8",
       success: function (response) {
         var table = "<table style='width:100%'>";
-        table += "<tr><td>First Name:</td><td>" + response.Address.FirstName + "</td></tr>";
-        table += "<tr><td>Last Name:</td><td>" + response.Address.LastName + "</td></tr>";
-        table += "<tr><td>City:</td><td>" + response.Address.AddressLine.City + "</td></tr>";
-        table += "<tr><td>State:</td><td>" + response.Address.AddressLine.State + "</td></tr>";
-        table += "<tr><td>ZipCode:</td><td>" + response.Address.AddressLine.ZipCode + "</td></tr>";
-        table += "<tr><td>PhoneNumber:</td><td>" + response.Address.AddressLine.PhoneNumber + "</td></tr>";
-        table += "<tr><td>ShippingSpeed:</td><td>" + response.ShippingSpeed + "</td></tr>";
-        table += "<tr><td>ShippingProvider:</td><td>" + response.ShippingProvider.Name + "</td></tr>";
-        table += "<tr><td>Status:</td><td>" + response.Status + "</td></tr>";
+        table += "<tr><td>First Name:</td><td>" + escapeHtml(response.Address.FirstName) + "</td></tr>";
+        table += "<tr><td>Last Name:</td><td>" + escapeHtml(response.Address.LastName) + "</td></tr>";
+        table += "<tr><td>City:</td><td>" + escapeHtml(response.Address.AddressLine.City) + "</td></tr>";
+        table += "<tr><td>State:</td><td>" + escapeHtml(response.Address.AddressLine.State) + "</td></tr>";
+        table += "<tr><td>ZipCode:</td><td>" + escapeHtml(response.Address.AddressLine.ZipCode) + "</td></tr>";
+        table += "<tr><td>PhoneNumber:</td><td>" + escapeHtml(response.Address.AddressLine.PhoneNumber) + "</td></tr>";
+        table += "<tr><td>ShippingSpeed:</td><td>" + escapeHtml(response.ShippingSpeed) + "</td></tr>";
+        table += "<tr><td>ShippingProvider:</td><td>" + escapeHtml(response.ShippingProvider.Name) + "</td></tr>";
+        table += "<tr><td>Status:</td><td>" + escapeHtml(response.Status) + "</td></tr>";
         table += "</table>";
         document.getElementById('response').innerHTML = table;
       }
